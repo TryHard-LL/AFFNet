@@ -505,22 +505,6 @@ class AFFBlock(BaseModule):
 
 if __name__ == "__main__":
 
-    # in_channels: int,
-    # transformer_dim: int,
-    # ffn_dim: int,
-    # n_transformer_blocks: Optional[int] = 2,
-    # head_dim: Optional[int] = 32,
-    # attn_dropout: Optional[float] = 0.0,
-    # dropout: Optional[int] = 0.0,
-    # ffn_dropout: Optional[int] = 0.0,
-    # patch_h: Optional[int] = 8,
-    # patch_w: Optional[int] = 8,
-    # attn_norm_layer: Optional[str] = "layer_norm_2d",
-    # conv_ksize: Optional[int] = 3,
-    # dilation: Optional[int] = 1,
-    # no_fusion: Optional[bool] = False,
-
-
     head_dim = 4
     input = torch.randn(1, 16, 224, 224)
     print(input.shape)
