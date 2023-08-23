@@ -12,6 +12,7 @@ Original Paper：Adaptive Frequency Filters As Efficient Global Token Mixers, IC
 # --------------------------------------------------------
 import numpy as np
 from torch import nn, Tensor
+import logger
 import math
 import torch
 from torch.nn import functional as F
@@ -276,17 +277,16 @@ class Block(nn.Module):
         if torch.cuda.device_count() < 1:
             # for a CPU-device, Sync-batch norm does not work. So, change to batch norm
             self.norm1 = nn.BatchNorm2d(num_features=dim)
+            self.norm2 = nn.BatchNorm2d(num_features=dim)
+            logger.info("Using BatchNorm2d")
         else:
             self.norm1 = SyncBatchNorm(normalized_shape=dim, num_features=dim)
+            self.norm2 = SyncBatchNorm(normalized_shape=dim, num_features=dim)
+            logger.info("Using SyncBatchNorm")
         self.filter = AFNO2D_channelfirst(hidden_size=hidden_size, num_blocks=num_blocks, sparsity_threshold=0.01,
                                           hard_thresholding_fraction=1, hidden_size_factor=1) # if not enable_coreml_compatible_fn else \
             # AFNO2D_channelfirst_coreml(hidden_size=hidden_size, num_blocks=num_blocks, sparsity_threshold=0.01, hard_thresholding_fraction=1, hidden_size_factor=1)
         self.drop_path = DropPath(drop_path) if drop_path > 0. else nn.Identity()
-        if torch.cuda.device_count() < 1:
-            # for a CPU-device, Sync-batch norm does not work. So, change to batch norm
-            self.norm2 = nn.BatchNorm2d(num_features=dim)
-        else:
-            self.norm2 = SyncBatchNorm(normalized_shape=dim, num_features=dim)
         self.mlp = InvertedResidual(
             inp=dim,
             oup=dim,
