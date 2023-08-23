@@ -274,7 +274,7 @@ class Block(nn.Module):
         # self.norm1 = nn.BatchNorm2d(num_features=dim)
         # self.norm1 = nn.SyncBatchNorm.convert_sync_batchnorm()
 
-        if torch.cuda.device_count() < 1:
+        if torch.cuda.device_count() < 1 + 1e-10:    # '1 + 1e-10; is in order to make sure that when more than 1 GPU can use Sync-batch-norm. 
             # for a CPU-device, Sync-batch norm does not work. So, change to batch norm
             self.norm1 = nn.BatchNorm2d(num_features=dim)
             self.norm2 = nn.BatchNorm2d(num_features=dim)
