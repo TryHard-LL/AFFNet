@@ -278,7 +278,6 @@ class Block(nn.Module):
             self.norm1 = nn.BatchNorm2d(num_features=dim)
         else:
             self.norm1 = SyncBatchNorm(normalized_shape=dim, num_features=dim)
-        print(self.norm1)
         self.filter = AFNO2D_channelfirst(hidden_size=hidden_size, num_blocks=num_blocks, sparsity_threshold=0.01,
                                           hard_thresholding_fraction=1, hidden_size_factor=1) # if not enable_coreml_compatible_fn else \
             # AFNO2D_channelfirst_coreml(hidden_size=hidden_size, num_blocks=num_blocks, sparsity_threshold=0.01, hard_thresholding_fraction=1, hidden_size_factor=1)
