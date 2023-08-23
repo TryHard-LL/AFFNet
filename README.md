@@ -1,6 +1,7 @@
 # AFFNet
 AFFNet-Unofficial Implementation
 
+code：https://github.com/NWPU-Li/AFFNet；
 
 '''
 Description:
